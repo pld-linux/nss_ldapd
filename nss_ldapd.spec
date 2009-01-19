@@ -29,6 +29,16 @@ of aliases, ethers, groups, hosts, networks, protocols, users, RPCs,
 services and shadow passwords (instead of or in addition to using flat
 files or NIS).
 
+%description -l pl.UTF-8
+Moduł serwisu nazw oraz osobny demon. Ten pakiet pozwala na
+korzystanie z serwerów X.500 i LDAP jako źródła aliasów, grup, hostów,
+sieci, protokołów, użytkowników, RPC, usług i haseł (zamiast lub
+oprócz zwykłych plików lub NIS).
+
+nss_ldapd jest forkiem projektu nss_ldap. Celem projektu jest
+naprawienie pewnych problemów z nss_ldap poprzez wydzielenie kodu LDAP
+do osobnego demona.
+
 %prep
 %setup -q -n nss-ldapd-%{version}
 
