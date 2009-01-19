@@ -1,0 +1,84 @@
+#!/bin/sh
+#
+# nss-ldapd:		Starts the NSS LDAP Cache Daemon
+#
+# chkconfig:	345 30 80
+# description:	This is a daemon which handles passwd and group lookups \
+#		for running programs and cache the results for the next query. \
+#   Also keeps connections to LDAP open.
+# processname:	nslcd
+# config:	/etc/nss-ldapd.conf
+#
+
+# Sanity checks.
+[ -f /etc/nss-ldapd.conf ] || exit 0
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Get sysconfig
+[ -f /etc/sysconfig/nss-ldapd ] && . /etc/sysconfig/nss-ldapd
+
+start() {
+	if [ ! -f /var/lock/subsys/nss-ldapd ]; then
+		msg_starting "NSS LDAP Cache Daemon"
+		daemon nslcd
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/nss-ldapd
+	else
+		msg_already_running "NSS LDAP Cache Daemon"
+	fi
+}
+
+stop() {
+	if [ -f /var/lock/subsys/nss-ldapd ]; then
+		msg_stopping "NSS LDAP Cache Daemon"
+		busy
+		killproc -p /var/run/nslcd/nslcd.pid
+		rm -f /var/lock/subsys/nss-ldapd >/dev/null 2>&1
+		ok
+	else
+		msg_not_running "NSS LDAP Cache Daemon"
+	fi
+}
+
+condrestart() {
+	if [ -f /var/lock/subsys/nss-ldapd ]; then
+		stop
+		start
+	else
+		msg_not_running "NSS LDAP Cache Daemon"
+		RETVAL=$1
+	fi
+}
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  restart)
+	stop
+	start
+	;;
+  try-restart)
+	condrestart 0
+	;;
+  force-reload)
+	condrestart 7
+	;;
+	;;
+  status)
+	status nslcd
+	exit $?
+	;;
+  *)
+	msg_usage "$0 {start|stop|restart|try-restart|force-reload|status}"
+	exit 3
+esac
+
+exit $RETVAL
