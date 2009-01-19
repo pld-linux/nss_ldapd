@@ -22,6 +22,7 @@
 start() {
 	if [ ! -f /var/lock/subsys/nss-ldapd ]; then
 		msg_starting "NSS LDAP Cache Daemon"
+		busy
 		daemon nslcd
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/nss-ldapd
@@ -34,9 +35,8 @@ stop() {
 	if [ -f /var/lock/subsys/nss-ldapd ]; then
 		msg_stopping "NSS LDAP Cache Daemon"
 		busy
-		killproc -p /var/run/nslcd/nslcd.pid
+		killproc --pidfile /var/run/nslcd/nslcd.pid nslcd
 		rm -f /var/lock/subsys/nss-ldapd >/dev/null 2>&1
-		ok
 	else
 		msg_not_running "NSS LDAP Cache Daemon"
 	fi
@@ -70,7 +70,6 @@ case "$1" in
 	;;
   force-reload)
 	condrestart 7
-	;;
 	;;
   status)
 	status nslcd
