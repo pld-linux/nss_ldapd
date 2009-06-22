@@ -1,16 +1,20 @@
+#
+# TODO:
+# - run daemon as non-root user
+#
 Summary:	LDAP Name Service Switch Module
 Summary(es.UTF-8):	Biblioteca NSS para LDAP
 Summary(pl.UTF-8):	Moduł NSS LDAP
 Summary(pt_BR.UTF-8):	Biblioteca NSS para LDAP
 Name:		nss_ldapd
-Version:	0.6.7
+Version:	0.6.10
 Release:	1
 License:	LGPL
 Group:		Base
-Source0:	http://ch.tudelft.nl/~arthur/nss-ldapd/nss-ldapd-%{version}.tar.gz
-# Source0-md5:	109257c0257b3119fa9a6a0fc1737f08
+Source0:	http://arthurdejong.org/nss-ldapd/nss-ldapd-%{version}.tar.gz
+# Source0-md5:	4b351954d94aceadb74ce589640fc93b
 Source1:	nslcd.init
-URL:		http://ch.tudelft.nl/~arthur/nss-ldapd/
+URL:		http://arthurdejong.org/nss-ldapd/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cyrus-sasl-devel
@@ -68,7 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/chkconfig --add nslcd
 %service nslcd restart "NSS LDAP Cache Daemon"
 
-%postun
+%preun
 if [ "$1" = "0" ]; then
 	%service nslcd stop
 	/sbin/chkconfig --del nslcd
