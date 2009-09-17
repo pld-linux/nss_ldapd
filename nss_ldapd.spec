@@ -1,23 +1,26 @@
 #
 # TODO:
-# - run daemon as non-root user
+# - consider name change
+# - add pam-pam_ldap package once the module will support all that PADL's one can
 #
 Summary:	LDAP Name Service Switch Module
 Summary(es.UTF-8):	Biblioteca NSS para LDAP
 Summary(pl.UTF-8):	Moduł NSS LDAP
 Summary(pt_BR.UTF-8):	Biblioteca NSS para LDAP
 Name:		nss_ldapd
-Version:	0.6.10
+Version:	0.7.0
 Release:	1
 License:	LGPL
 Group:		Base
-Source0:	http://arthurdejong.org/nss-ldapd/nss-ldapd-%{version}.tar.gz
-# Source0-md5:	4b351954d94aceadb74ce589640fc93b
+Source0:	http://arthurdejong.org/nss-ldapd/nss-pam-ldapd-%{version}.tar.gz
+# Source0-md5:	84487b422be438372b28621576700843
 Source1:	nslcd.init
+Patch0:		%{name}-no-root.patch
 URL:		http://arthurdejong.org/nss-ldapd/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cyrus-sasl-devel
+BuildRequires:	heimdal-devel
 BuildRequires:	openldap-devel >= 2.4.6
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts >= 0.2.0
@@ -44,15 +47,13 @@ naprawienie pewnych problemów z nss_ldap poprzez wydzielenie kodu LDAP
 do osobnego demona.
 
 %prep
-%setup -q -n nss-ldapd-%{version}
+%setup -q -n nss-pam-ldapd-%{version}
+%patch0 -p1
 
 %build
-%{__aclocal} -I m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
 %configure \
 	--with-ldap-lib=openldap
+
 %{__make}
 
 %install
@@ -67,6 +68,9 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nslcd
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%pre
+%useradd -u 21 -d /usr/share/empty -s /bin/false -c "NSS LDAP Cache Daemon User" -g nobody nslcd
+
 %post
 /sbin/ldconfig
 /sbin/chkconfig --add nslcd
@@ -78,11 +82,22 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del nslcd
 fi
 
+%postun
+if [ "$1" = "0" ]; then
+	%userremove nslcd
+fi
+
+%triggerpostun -- nss_ldapd < 0.7.0
+if [ -e %{_sysconfdir}/nss-ldapd.conf.rpmsave ]; then
+	mv -f %{_sysconfdir}/nslcd.conf{,rpmnew}
+	mv -f %{_sysconfdir}/nss-ldapd.conf.rpmsave %{_sysconfdir}/nslcd.conf
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(754,root,root) /etc/rc.d/init.d/nslcd
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nss-ldapd.conf
+%attr(640,nslcd,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nslcd.conf
 %attr(755,root,root) %{_libdir}/*.so*
 %attr(755,root,root) %{_sbindir}/nslcd
 %{_mandir}/man5/*
