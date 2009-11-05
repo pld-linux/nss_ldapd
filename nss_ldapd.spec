@@ -1,7 +1,6 @@
 #
 # TODO:
 # - consider name change
-# - add pam-pam_ldap package once the module will support all that PADL's one can
 #
 Summary:	LDAP Name Service Switch Module
 Summary(es.UTF-8):	Biblioteca NSS para LDAP
@@ -9,7 +8,7 @@ Summary(pl.UTF-8):	Moduł NSS LDAP
 Summary(pt_BR.UTF-8):	Biblioteca NSS para LDAP
 Name:		nss_ldapd
 Version:	0.7.1
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Base
 Source0:	http://arthurdejong.org/nss-ldapd/nss-pam-ldapd-%{version}.tar.gz
@@ -45,6 +44,23 @@ oprócz zwykłych plików lub NIS).
 nss_ldapd jest forkiem projektu nss_ldap. Celem projektu jest
 naprawienie pewnych problemów z nss_ldap poprzez wydzielenie kodu LDAP
 do osobnego demona.
+
+%package pam
+Summary:	NSS LDAPD Pluggable Authentication Module
+Summary(pl.UTF-8):	Moduł PAM do uwierzytelniania z użyciem NSS LDAPD
+Group:		Base
+Requires:	%{name} = %{version}-%{release}
+Conflicts:	pam-pam_ldap
+
+%description pam
+This is pam_ldap, a pluggable authentication module that can be used
+with linux-PAM. This module supports authentication, account management,
+password management and session management.
+
+%description pam -l pl.UTF-8
+To jest pam_ldap, wymienny moduł uwierzytelniania, który może być
+użyty z linux-PAM. Moduł ten wspiera autentykację, obsługę kont,
+zmianę haseł i obsługę sesji.
 
 %prep
 %setup -q -n nss-pam-ldapd-%{version}
@@ -103,3 +119,7 @@ fi
 %{_mandir}/man5/*
 %{_mandir}/man8/*
 %dir /var/run/nslcd
+
+%files pam
+%defattr(644,root,root,755)
+%attr(755,root,root) /%{_lib}/security/pam_ldap.so
