@@ -7,12 +7,12 @@ Summary(es.UTF-8):	Biblioteca NSS para LDAP
 Summary(pl.UTF-8):	Moduł NSS LDAP
 Summary(pt_BR.UTF-8):	Biblioteca NSS para LDAP
 Name:		nss_ldapd
-Version:	0.7.1
-Release:	2
+Version:	0.7.2
+Release:	1
 License:	LGPL
 Group:		Base
 Source0:	http://arthurdejong.org/nss-ldapd/nss-pam-ldapd-%{version}.tar.gz
-# Source0-md5:	11a31772554a452a5d978b39665fcf80
+# Source0-md5:	010ceaed593ce1a0cbc13b1a3d4b25fd
 Source1:	nslcd.init
 Patch0:		%{name}-no-root.patch
 URL:		http://arthurdejong.org/nss-ldapd/
@@ -22,6 +22,7 @@ BuildRequires:	cyrus-sasl-devel
 BuildRequires:	heimdal-devel
 BuildRequires:	openldap-devel >= 2.4.6
 Requires(post,preun):	/sbin/chkconfig
+Requires:	nslcd
 Requires:	rc-scripts >= 0.2.0
 Conflicts:	nss_ldap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -45,11 +46,23 @@ nss_ldapd jest forkiem projektu nss_ldap. Celem projektu jest
 naprawienie pewnych problemów z nss_ldap poprzez wydzielenie kodu LDAP
 do osobnego demona.
 
+%package nslcd
+Summary:	NSS LDAPD name service daemon
+Summary(pl.UTF-8):	Demon serwisu nazw NSS LDAPD
+Group:		Base
+Provides:	nslcd
+
+%description nslcd
+NSS LDAPD name service daemon.
+
+%description nslcd -l pl.UTF-8
+Demon serwisu nazw NSS LDAPD.
+
 %package pam
 Summary:	NSS LDAPD Pluggable Authentication Module
 Summary(pl.UTF-8):	Moduł PAM do uwierzytelniania z użyciem NSS LDAPD
 Group:		Base
-Requires:	%{name} = %{version}-%{release}
+Requires:	nslcd
 Conflicts:	pam-pam_ldap
 
 %description pam
@@ -84,26 +97,28 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nslcd
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%pre
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
+%pre nslcd
 %useradd -u 21 -d /usr/share/empty -s /bin/false -c "NSS LDAP Cache Daemon User" -g nobody nslcd
 
-%post
-/sbin/ldconfig
+%post nslcd
 /sbin/chkconfig --add nslcd
 %service nslcd restart "NSS LDAP Cache Daemon"
 
-%preun
+%preun nslcd
 if [ "$1" = "0" ]; then
 	%service nslcd stop
 	/sbin/chkconfig --del nslcd
 fi
 
-%postun
+%postun nslcd
 if [ "$1" = "0" ]; then
 	%userremove nslcd
 fi
 
-%triggerpostun -- nss_ldapd < 0.7.0
+%triggerpostun nslcd -- nss_ldapd < 0.7.0
 if [ -e %{_sysconfdir}/nss-ldapd.conf.rpmsave ]; then
 	mv -f %{_sysconfdir}/nslcd.conf{,rpmnew}
 	mv -f %{_sysconfdir}/nss-ldapd.conf.rpmsave %{_sysconfdir}/nslcd.conf
@@ -112,14 +127,17 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
+%attr(755,root,root) %{_libdir}/*.so*
+
+%files nslcd
 %attr(754,root,root) /etc/rc.d/init.d/nslcd
 %attr(640,nslcd,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nslcd.conf
-%attr(755,root,root) %{_libdir}/*.so*
 %attr(755,root,root) %{_sbindir}/nslcd
-%{_mandir}/man5/*
-%{_mandir}/man8/*
+%{_mandir}/man5/nslcd.conf.5*
+%{_mandir}/man8/nslcd.8*
 %dir /var/run/nslcd
 
 %files pam
 %defattr(644,root,root,755)
 %attr(755,root,root) /%{_lib}/security/pam_ldap.so
+%{_mandir}/man8/pam_ldap.8*
