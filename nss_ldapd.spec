@@ -21,6 +21,7 @@ BuildRequires:	automake
 BuildRequires:	cyrus-sasl-devel
 BuildRequires:	heimdal-devel
 BuildRequires:	openldap-devel >= 2.4.6
+BuildRequires:	pam-devel
 Requires(post,preun):	/sbin/chkconfig
 Requires:	nslcd
 Requires:	rc-scripts >= 0.2.0
@@ -67,8 +68,8 @@ Conflicts:	pam-pam_ldap
 
 %description pam
 This is pam_ldap, a pluggable authentication module that can be used
-with linux-PAM. This module supports authentication, account management,
-password management and session management.
+with linux-PAM. This module supports authentication, account
+management, password management and session management.
 
 %description pam -l pl.UTF-8
 To jest pam_ldap, wymienny moduł uwierzytelniania, który może być
@@ -130,6 +131,7 @@ fi
 %attr(755,root,root) %{_libdir}/*.so*
 
 %files nslcd
+%defattr(644,root,root,755)
 %attr(754,root,root) /etc/rc.d/init.d/nslcd
 %attr(640,nslcd,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nslcd.conf
 %attr(755,root,root) %{_sbindir}/nslcd
