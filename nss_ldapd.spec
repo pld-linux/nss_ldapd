@@ -7,12 +7,12 @@ Summary(es.UTF-8):	Biblioteca NSS para LDAP
 Summary(pl.UTF-8):	Moduł NSS LDAP
 Summary(pt_BR.UTF-8):	Biblioteca NSS para LDAP
 Name:		nss_ldapd
-Version:	0.7.3
+Version:	0.7.6
 Release:	1
 License:	LGPL
 Group:		Base
 Source0:	http://arthurdejong.org/nss-ldapd/nss-pam-ldapd-%{version}.tar.gz
-# Source0-md5:	688833d959f1878a139d484e980d160e
+# Source0-md5:	44aab952978fe193d65a14d3631c7957
 Source1:	nslcd.init
 Patch0:		%{name}-no-root.patch
 URL:		http://arthurdejong.org/nss-ldapd/
