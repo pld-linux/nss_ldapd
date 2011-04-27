@@ -7,12 +7,12 @@ Summary(es.UTF-8):	Biblioteca NSS para LDAP
 Summary(pl.UTF-8):	Moduł NSS LDAP
 Summary(pt_BR.UTF-8):	Biblioteca NSS para LDAP
 Name:		nss_ldapd
-Version:	0.7.12
+Version:	0.8.2
 Release:	1
 License:	LGPL
 Group:		Base
 Source0:	http://arthurdejong.org/nss-pam-ldapd/nss-pam-ldapd-%{version}.tar.gz
-# Source0-md5:	21f8ed3e27da238d53a342fd67188306
+# Source0-md5:	a063797dae3c63c46faa85908aa856d2
 Source1:	nslcd.init
 Patch0:		%{name}-no-root.patch
 URL:		http://arthurdejong.org/nss-pam-ldapd/
@@ -27,8 +27,6 @@ Requires:	nslcd
 Requires:	rc-scripts >= 0.2.0
 Conflicts:	nss_ldap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_libdir		/%{_lib}
 
 %description
 nss_ldapd is a C library extension (NSS module) and daemon which
@@ -82,13 +80,14 @@ zmianę haseł i obsługę sesji.
 
 %build
 %configure \
+	--with-pam-seclib-dir=/%{_lib}/security \
 	--with-ldap-lib=openldap
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_libdir},/etc/rc.d/init.d,/var/run/nslcd}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},/etc/rc.d/init.d,/var/run/nslcd}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
