@@ -8,7 +8,7 @@ Summary(pl.UTF-8):	Moduł NSS LDAP
 Summary(pt_BR.UTF-8):	Biblioteca NSS para LDAP
 Name:		nss_ldapd
 Version:	0.8.3
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Base
 Source0:	http://arthurdejong.org/nss-pam-ldapd/nss-pam-ldapd-%{version}.tar.gz
@@ -27,6 +27,8 @@ Requires:	nslcd
 Requires:	rc-scripts >= 0.2.0
 Conflicts:	nss_ldap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_libdir		/%{_lib}
 
 %description
 nss_ldapd is a C library extension (NSS module) and daemon which
