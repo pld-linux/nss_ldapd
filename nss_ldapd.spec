@@ -14,6 +14,7 @@ Group:		Base
 Source0:	http://arthurdejong.org/nss-pam-ldapd/nss-pam-ldapd-%{version}.tar.gz
 # Source0-md5:	ff9559cdc553a87114d2fb2fb0d42d59
 Source1:	nslcd.init
+Source2:	%{name}.tmpfiles
 Patch0:		%{name}-no-root.patch
 URL:		http://arthurdejong.org/nss-pam-ldapd/
 BuildRequires:	autoconf
@@ -89,12 +90,14 @@ zmianę haseł i obsługę sesji.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},/etc/rc.d/init.d,/var/run/nslcd}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},/etc/rc.d/init.d,/var/run/nslcd} \
+	$RPM_BUILD_ROOT/usr/lib/tmpfiles.d
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nslcd
+install %{SOURCE2} $RPM_BUILD_ROOT/usr/lib/tmpfiles.d/%{name}.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -139,6 +142,7 @@ fi
 %{_mandir}/man5/nslcd.conf.5*
 %{_mandir}/man8/nslcd.8*
 %dir /var/run/nslcd
+/usr/lib/tmpfiles.d/%{name}.conf
 
 %files pam
 %defattr(644,root,root,755)
