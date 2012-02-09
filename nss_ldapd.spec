@@ -1,4 +1,3 @@
-#
 # TODO:
 # - consider name change
 #
@@ -21,7 +20,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cyrus-sasl-devel
 BuildRequires:	heimdal-devel
-BuildRequires:	openldap-devel >= 2.4.6
+BuildRequires:	openldap-devel >= 2.3.0
 BuildRequires:	pam-devel
 Requires(post,preun):	/sbin/chkconfig
 Requires:	nslcd
