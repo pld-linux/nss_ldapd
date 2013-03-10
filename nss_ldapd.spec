@@ -6,24 +6,25 @@ Summary(es.UTF-8):	Biblioteca NSS para LDAP
 Summary(pl.UTF-8):	Moduł NSS LDAP
 Summary(pt_BR.UTF-8):	Biblioteca NSS para LDAP
 Name:		nss_ldapd
-Version:	0.8.10
+Version:	0.8.12
 Release:	1
-License:	LGPL
+License:	LGPL v2.1+
 Group:		Base
 Source0:	http://arthurdejong.org/nss-pam-ldapd/nss-pam-ldapd-%{version}.tar.gz
-# Source0-md5:	8f76fefe50888bee09f7732102376342
+# Source0-md5:	83121b0a536e763a9c0e3eec66ab2ef8
 Source1:	nslcd.init
 Source2:	%{name}.tmpfiles
 Patch0:		%{name}-no-root.patch
 URL:		http://arthurdejong.org/nss-pam-ldapd/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake
 BuildRequires:	cyrus-sasl-devel
+BuildRequires:	docbook2X
 BuildRequires:	heimdal-devel
 BuildRequires:	openldap-devel >= 2.3.0
 BuildRequires:	pam-devel
 Requires(post,preun):	/sbin/chkconfig
-Requires:	nslcd
+Requires:	nslcd = %{version}-%{release}
 Requires:	rc-scripts >= 0.2.0
 Conflicts:	nss_ldap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -51,7 +52,7 @@ do osobnego demona.
 Summary:	NSS LDAPD name service daemon
 Summary(pl.UTF-8):	Demon serwisu nazw NSS LDAPD
 Group:		Base
-Provides:	nslcd
+Provides:	nslcd = %{version}-%{release}
 
 %description nslcd
 NSS LDAPD name service daemon.
@@ -63,7 +64,7 @@ Demon serwisu nazw NSS LDAPD.
 Summary:	NSS LDAPD Pluggable Authentication Module
 Summary(pl.UTF-8):	Moduł PAM do uwierzytelniania z użyciem NSS LDAPD
 Group:		Base
-Requires:	nslcd
+Requires:	nslcd = %{version}-%{release}
 Conflicts:	pam-pam_ldap
 
 %description pam
@@ -82,6 +83,7 @@ zmianę haseł i obsługę sesji.
 
 %build
 %configure \
+	DOCBOOK2X_MAN=/usr/bin/docbook2X2man \
 	--with-pam-seclib-dir=/%{_lib}/security \
 	--with-ldap-lib=openldap
 
@@ -101,8 +103,8 @@ install %{SOURCE2} $RPM_BUILD_ROOT/usr/lib/tmpfiles.d/%{name}.conf
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %pre nslcd
 %useradd -u 21 -d /usr/share/empty -s /bin/false -c "NSS LDAP Cache Daemon User" -g nobody nslcd
@@ -130,8 +132,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
-%attr(755,root,root) %{_libdir}/*.so*
+%doc AUTHORS ChangeLog NEWS README TODO
+%attr(755,root,root) %{_libdir}/libnss_ldap.so.2
 
 %files nslcd
 %defattr(644,root,root,755)
