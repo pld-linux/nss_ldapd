@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Moduł NSS LDAP
 Summary(pt_BR.UTF-8):	Biblioteca NSS para LDAP
 Name:		nss_ldapd
 Version:	0.9.2
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Base
 Source0:	http://arthurdejong.org/nss-pam-ldapd/nss-pam-ldapd-%{version}.tar.gz
@@ -25,6 +25,7 @@ BuildRequires:	heimdal-devel
 BuildRequires:	openldap-devel >= 2.3.0
 BuildRequires:	pam-devel
 BuildRequires:	rpmbuild(macros) >= 1.671
+Requires:	nslcd = %{version}-%{release}
 Conflicts:	nss_ldap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -55,6 +56,7 @@ Requires(post,preun):	/sbin/chkconfig
 Requires(post,preun,postun):	systemd-units >= 38
 Requires:	rc-scripts >= 0.2.0
 Requires:	systemd-units >= 38
+Provides:	nslcd = %{version}-%{release}
 
 %description nslcd
 NSS LDAPD name service daemon.
@@ -174,6 +176,7 @@ fi
 %attr(755,root,root) %{_bindir}/chsh.ldap
 %attr(755,root,root) %{_bindir}/getent.ldap
 %attr(755,root,root) %{_datadir}/nslcd-utils/chsh.py
+%dir %{_datadir}/nslcd-utils
 %{_datadir}/nslcd-utils/cmdline.py
 %{_datadir}/nslcd-utils/constants.py
 %attr(755,root,root) %{_datadir}/nslcd-utils/getent.py
