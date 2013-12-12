@@ -1,0 +1,11 @@
+--- nss-pam-ldapd-0.9.2/nslcd/shadow.c~	2013-12-11 18:52:47.177442335 +0100
++++ nss-pam-ldapd-0.9.2/nslcd/shadow.c	2013-12-12 22:40:40.959742532 +0100
+@@ -132,7 +132,7 @@
+     strncpy(buffer, date, l);
+     buffer[l] = '\0';
+     errno = 0;
+-    value = strtol(date, &tmp, 10);
++    value = strtol(buffer, &tmp, 10);
+     if ((*date == '\0') || (*tmp != '\0'))
+     {
+       log_log(LOG_WARNING, "%s: %s: non-numeric", dn, attr);
