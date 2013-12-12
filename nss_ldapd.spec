@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Moduł NSS LDAP
 Summary(pt_BR.UTF-8):	Biblioteca NSS para LDAP
 Name:		nss_ldapd
 Version:	0.9.2
-Release:	2
+Release:	3
 License:	LGPL v2.1+
 Group:		Base
 Source0:	http://arthurdejong.org/nss-pam-ldapd/nss-pam-ldapd-%{version}.tar.gz
@@ -16,6 +16,7 @@ Source1:	nslcd.init
 Source2:	nslcd.service
 Source3:	nslcd.tmpfiles
 Patch0:		%{name}-no-root.patch
+Patch1:		optimize-queries.patch
 URL:		http://arthurdejong.org/nss-pam-ldapd/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake
@@ -96,6 +97,7 @@ zmianę haseł i obsługę sesji.
 %prep
 %setup -q -n nss-pam-ldapd-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %{__sed} -i -e '1s|#!.*|#!%{__python}|' utils/*.py
 
