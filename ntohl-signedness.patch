@@ -1,0 +1,11 @@
+--- nss-pam-ldapd-0.9.2/common/nslcd-prot.h~	2013-05-15 22:55:33.000000000 +0200
++++ nss-pam-ldapd-0.9.2/common/nslcd-prot.h	2013-12-12 22:01:31.912463111 +0100
+@@ -170,7 +170,7 @@
+ 
+ #define READ_INT32(fp, i)                                                   \
+   READ(fp, &tmpint32, sizeof(int32_t));                                     \
+-  (i) = ntohl(tmpint32);                                                    \
++  (i) = (int32_t)ntohl(tmpint32);                                                    \
+   DEBUG_PRINT("READ_INT32 : var="__STRING(i)" int32==%08x", (int)(i));
+ 
+ /* read a string in a fixed-size "normal" buffer */

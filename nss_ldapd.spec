@@ -17,6 +17,7 @@ Source2:	nslcd.service
 Source3:	nslcd.tmpfiles
 Patch0:		%{name}-no-root.patch
 Patch1:		optimize-queries.patch
+Patch2:		ntohl-signedness.patch
 URL:		http://arthurdejong.org/nss-pam-ldapd/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake
@@ -98,6 +99,7 @@ zmianę haseł i obsługę sesji.
 %setup -q -n nss-pam-ldapd-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %{__sed} -i -e '1s|#!.*|#!%{__python}|' utils/*.py
 
