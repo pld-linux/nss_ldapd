@@ -19,6 +19,7 @@ Patch0:		%{name}-no-root.patch
 Patch1:		optimize-queries.patch
 Patch2:		ntohl-signedness.patch
 Patch3:		fix-to_date.patch
+Patch4:		shadowExpire-from-AD.patch
 URL:		http://arthurdejong.org/nss-pam-ldapd/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake
@@ -102,6 +103,7 @@ zmianę haseł i obsługę sesji.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %{__sed} -i -e '1s|#!.*|#!%{__python}|' utils/*.py
 
