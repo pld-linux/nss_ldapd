@@ -6,12 +6,12 @@ Summary(es.UTF-8):	Biblioteca NSS para LDAP
 Summary(pl.UTF-8):	Moduł NSS LDAP
 Summary(pt_BR.UTF-8):	Biblioteca NSS para LDAP
 Name:		nss_ldapd
-Version:	0.9.2
-Release:	5
+Version:	0.9.4
+Release:	0.1
 License:	LGPL v2.1+
 Group:		Base
 Source0:	http://arthurdejong.org/nss-pam-ldapd/nss-pam-ldapd-%{version}.tar.gz
-# Source0-md5:	0c60d4c300dd9a4fb40b6ba7abeed8a2
+# Source0-md5:	0d74202700efdde3b6e551bfff49c132
 Source1:	nslcd.init
 Source2:	nslcd.service
 Source3:	nslcd.tmpfiles
@@ -101,8 +101,10 @@ zmianę haseł i obsługę sesji.
 %setup -q -n nss-pam-ldapd-%{version}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
+# made upstream
+#patch2 -p1
+# patched upstream
+#patch3 -p1
 %patch4 -p1
 
 %{__sed} -i -e '1s|#!.*|#!%{__python}|' utils/*.py
