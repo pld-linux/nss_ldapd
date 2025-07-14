@@ -99,13 +99,13 @@ zmianę haseł i obsługę sesji.
 
 %prep
 %setup -q -n nss-pam-ldapd-%{version}
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 # made upstream
 #patch2 -p1
 # patched upstream
 #patch3 -p1
-%patch4 -p1
+%patch -P4 -p1
 
 %{__sed} -i -e '1s|#!.*|#!%{__python}|' utils/*.py
 
