@@ -1,0 +1,38 @@
+--- nss-pam-ldapd-0.9.4/py-compile~	2014-06-06 20:28:31.000000000 +0200
++++ nss-pam-ldapd-0.9.4/py-compile	2025-11-24 19:13:14.043244411 +0100
+@@ -116,7 +116,7 @@ else
+ fi
+ 
+ $PYTHON -c "
+-import sys, os, py_compile, imp
++import sys, os, py_compile
+ 
+ files = '''$files'''
+ 
+@@ -129,7 +129,7 @@ for file in files.split():
+ 	    continue
+     sys.stdout.write(file)
+     sys.stdout.flush()
+-    if hasattr(imp, 'get_tag'):
++    if 0 and hasattr(imp, 'get_tag'):
+         py_compile.compile(filepath, imp.cache_from_source(filepath), path)
+     else:
+         py_compile.compile(filepath, filepath + 'c', path)
+@@ -137,7 +137,7 @@ sys.stdout.write('\n')" || exit $?
+ 
+ # this will fail for python < 1.5, but that doesn't matter ...
+ $PYTHON -O -c "
+-import sys, os, py_compile, imp
++import sys, os, py_compile
+ 
+ # pypy does not use .pyo optimization
+ if hasattr(sys, 'pypy_translation_info'):
+@@ -153,7 +153,7 @@ for file in files.split():
+ 	    continue
+     sys.stdout.write(file)
+     sys.stdout.flush()
+-    if hasattr(imp, 'get_tag'):
++    if 0 and hasattr(imp, 'get_tag'):
+         py_compile.compile(filepath, imp.cache_from_source(filepath, False), path)
+     else:
+         py_compile.compile(filepath, filepath + 'o', path)

@@ -1,9 +1,9 @@
-diff -ur nss-pam-ldapd-0.9.2/nslcd/alias.c nss-pam-ldapd-0.9.2-opt/nslcd/alias.c
---- nss-pam-ldapd-0.9.2/nslcd/alias.c	2013-05-15 22:55:33.000000000 +0200
-+++ nss-pam-ldapd-0.9.2-opt/nslcd/alias.c	2013-12-11 18:44:59.052879393 +0100
-@@ -69,8 +69,8 @@
-   if (myldap_escape(name, safename, sizeof(safename)))
+diff -urNp -x '*.orig' nss-pam-ldapd-0.9.4.org/nslcd/alias.c nss-pam-ldapd-0.9.4/nslcd/alias.c
+--- nss-pam-ldapd-0.9.4.org/nslcd/alias.c	2014-06-06 17:28:40.000000000 +0200
++++ nss-pam-ldapd-0.9.4/nslcd/alias.c	2025-11-24 19:07:39.200021750 +0100
+@@ -72,8 +72,8 @@ static int mkfilter_alias_byname(const c
      return -1;
+   }
    /* build filter */
 -  return mysnprintf(buffer, buflen, "(&%s(%s=%s))",
 -                    alias_filter, attmap_alias_cn, safename);
@@ -12,12 +12,12 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/alias.c nss-pam-ldapd-0.9.2-opt/nslcd/alias.c
  }
  
  void alias_init(void)
-diff -ur nss-pam-ldapd-0.9.2/nslcd/ether.c nss-pam-ldapd-0.9.2-opt/nslcd/ether.c
---- nss-pam-ldapd-0.9.2/nslcd/ether.c	2013-05-15 22:55:33.000000000 +0200
-+++ nss-pam-ldapd-0.9.2-opt/nslcd/ether.c	2013-12-11 18:46:05.330191524 +0100
-@@ -71,8 +71,8 @@
-   if (myldap_escape(name, safename, sizeof(safename)))
+diff -urNp -x '*.orig' nss-pam-ldapd-0.9.4.org/nslcd/ether.c nss-pam-ldapd-0.9.4/nslcd/ether.c
+--- nss-pam-ldapd-0.9.4.org/nslcd/ether.c	2014-06-06 17:28:40.000000000 +0200
++++ nss-pam-ldapd-0.9.4/nslcd/ether.c	2025-11-24 19:07:39.200235492 +0100
+@@ -74,8 +74,8 @@ static int mkfilter_ether_byname(const c
      return -1;
+   }
    /* build filter */
 -  return mysnprintf(buffer, buflen, "(&%s(%s=%s))",
 -                    ether_filter, attmap_ether_cn, safename);
@@ -26,7 +26,7 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/ether.c nss-pam-ldapd-0.9.2-opt/nslcd/ether.c
  }
  
  static int mkfilter_ether_byether(const char *addrstr,
-@@ -82,8 +82,8 @@
+@@ -85,8 +85,8 @@ static int mkfilter_ether_byether(const
       representation (e.g. 1:0:e:...) and not with extra leading zeros
       (e.g. 01:00:0e:...) */
    /* there should be no characters that need escaping */
@@ -37,8 +37,9 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/ether.c nss-pam-ldapd-0.9.2-opt/nslcd/ether.c
  }
  
  void ether_init(void)
---- nss-pam-ldapd-0.9.4/nslcd/group.c.orig	2014-06-06 17:28:40.000000000 +0200
-+++ nss-pam-ldapd-0.9.4/nslcd/group.c	2014-07-11 13:30:43.245939236 +0200
+diff -urNp -x '*.orig' nss-pam-ldapd-0.9.4.org/nslcd/group.c nss-pam-ldapd-0.9.4/nslcd/group.c
+--- nss-pam-ldapd-0.9.4.org/nslcd/group.c	2014-06-06 17:28:40.000000000 +0200
++++ nss-pam-ldapd-0.9.4/nslcd/group.c	2025-11-24 19:07:39.200431833 +0100
 @@ -112,19 +112,21 @@ static int mkfilter_group_bygid(gid_t gi
    {
      /* the given gid is a BUILTIN gid, the SID prefix is not the domain SID */
@@ -105,12 +106,12 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/ether.c nss-pam-ldapd-0.9.2-opt/nslcd/ether.c
  }
  
  void group_init(void)
-diff -ur nss-pam-ldapd-0.9.2/nslcd/host.c nss-pam-ldapd-0.9.2-opt/nslcd/host.c
---- nss-pam-ldapd-0.9.2/nslcd/host.c	2013-05-15 22:55:33.000000000 +0200
-+++ nss-pam-ldapd-0.9.2-opt/nslcd/host.c	2013-12-11 18:47:49.927877236 +0100
-@@ -71,8 +71,8 @@
-   if (myldap_escape(name, safename, sizeof(safename)))
+diff -urNp -x '*.orig' nss-pam-ldapd-0.9.4.org/nslcd/host.c nss-pam-ldapd-0.9.4/nslcd/host.c
+--- nss-pam-ldapd-0.9.4.org/nslcd/host.c	2014-06-06 17:28:40.000000000 +0200
++++ nss-pam-ldapd-0.9.4/nslcd/host.c	2025-11-24 19:07:39.200616818 +0100
+@@ -74,8 +74,8 @@ static int mkfilter_host_byname(const ch
      return -1;
+   }
    /* build filter */
 -  return mysnprintf(buffer, buflen, "(&%s(%s=%s))",
 -                    host_filter, attmap_host_cn, safename);
@@ -119,9 +120,9 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/host.c nss-pam-ldapd-0.9.2-opt/nslcd/host.c
  }
  
  static int mkfilter_host_byaddr(const char *addrstr,
-@@ -83,8 +83,8 @@
-   if (myldap_escape(addrstr, safeaddr, sizeof(safeaddr)))
+@@ -89,8 +89,8 @@ static int mkfilter_host_byaddr(const ch
      return -1;
+   }
    /* build filter */
 -  return mysnprintf(buffer, buflen, "(&%s(%s=%s))",
 -                    host_filter, attmap_host_ipHostNumber, safeaddr);
@@ -130,12 +131,12 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/host.c nss-pam-ldapd-0.9.2-opt/nslcd/host.c
  }
  
  void host_init(void)
-diff -ur nss-pam-ldapd-0.9.2/nslcd/netgroup.c nss-pam-ldapd-0.9.2-opt/nslcd/netgroup.c
---- nss-pam-ldapd-0.9.2/nslcd/netgroup.c	2013-05-15 22:55:33.000000000 +0200
-+++ nss-pam-ldapd-0.9.2-opt/nslcd/netgroup.c	2013-12-11 18:48:15.074788966 +0100
-@@ -70,8 +70,8 @@
-   if (myldap_escape(name, safename, sizeof(safename)))
+diff -urNp -x '*.orig' nss-pam-ldapd-0.9.4.org/nslcd/netgroup.c nss-pam-ldapd-0.9.4/nslcd/netgroup.c
+--- nss-pam-ldapd-0.9.4.org/nslcd/netgroup.c	2014-06-06 17:28:40.000000000 +0200
++++ nss-pam-ldapd-0.9.4/nslcd/netgroup.c	2025-11-24 19:07:39.200758671 +0100
+@@ -73,8 +73,8 @@ static int mkfilter_netgroup_byname(cons
      return -1;
+   }
    /* build filter */
 -  return mysnprintf(buffer, buflen, "(&%s(%s=%s))",
 -                    netgroup_filter, attmap_netgroup_cn, safename);
@@ -144,12 +145,12 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/netgroup.c nss-pam-ldapd-0.9.2-opt/nslcd/netg
  }
  
  void netgroup_init(void)
-diff -ur nss-pam-ldapd-0.9.2/nslcd/network.c nss-pam-ldapd-0.9.2-opt/nslcd/network.c
---- nss-pam-ldapd-0.9.2/nslcd/network.c	2013-05-15 22:55:33.000000000 +0200
-+++ nss-pam-ldapd-0.9.2-opt/nslcd/network.c	2013-12-11 18:48:44.405074831 +0100
-@@ -70,8 +70,8 @@
-   if (myldap_escape(name, safename, sizeof(safename)))
+diff -urNp -x '*.orig' nss-pam-ldapd-0.9.4.org/nslcd/network.c nss-pam-ldapd-0.9.4/nslcd/network.c
+--- nss-pam-ldapd-0.9.4.org/nslcd/network.c	2014-06-06 17:28:40.000000000 +0200
++++ nss-pam-ldapd-0.9.4/nslcd/network.c	2025-11-24 19:07:39.200912106 +0100
+@@ -73,8 +73,8 @@ static int mkfilter_network_byname(const
      return -1;
+   }
    /* build filter */
 -  return mysnprintf(buffer, buflen, "(&%s(%s=%s))",
 -                    network_filter, attmap_network_cn, safename);
@@ -158,9 +159,9 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/network.c nss-pam-ldapd-0.9.2-opt/nslcd/netwo
  }
  
  static int mkfilter_network_byaddr(const char *addrstr,
-@@ -82,8 +82,8 @@
-   if (myldap_escape(addrstr, safeaddr, sizeof(safeaddr)))
+@@ -88,8 +88,8 @@ static int mkfilter_network_byaddr(const
      return -1;
+   }
    /* build filter */
 -  return mysnprintf(buffer, buflen, "(&%s(%s=%s))",
 -                    network_filter, attmap_network_ipNetworkNumber, safeaddr);
@@ -169,12 +170,12 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/network.c nss-pam-ldapd-0.9.2-opt/nslcd/netwo
  }
  
  void network_init(void)
-diff -ur nss-pam-ldapd-0.9.2/nslcd/passwd.c nss-pam-ldapd-0.9.2-opt/nslcd/passwd.c
---- nss-pam-ldapd-0.9.2/nslcd/passwd.c	2013-10-29 19:18:20.000000000 +0100
-+++ nss-pam-ldapd-0.9.2-opt/nslcd/passwd.c	2013-12-11 18:44:36.765995722 +0100
-@@ -92,8 +92,8 @@
-   if (myldap_escape(name, safename, sizeof(safename)))
+diff -urNp -x '*.orig' nss-pam-ldapd-0.9.4.org/nslcd/passwd.c nss-pam-ldapd-0.9.4/nslcd/passwd.c
+--- nss-pam-ldapd-0.9.4.org/nslcd/passwd.c	2014-06-06 17:28:40.000000000 +0200
++++ nss-pam-ldapd-0.9.4/nslcd/passwd.c	2025-11-24 19:07:39.201084832 +0100
+@@ -95,8 +95,8 @@ static int mkfilter_passwd_byname(const
      return -1;
+   }
    /* build filter */
 -  return mysnprintf(buffer, buflen, "(&%s(%s=%s))",
 -                    passwd_filter, attmap_passwd_uid, safename);
@@ -183,7 +184,7 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/passwd.c nss-pam-ldapd-0.9.2-opt/nslcd/passwd
  }
  
  /* create a search filter for searching a passwd entry
-@@ -102,15 +102,16 @@
+@@ -105,15 +105,16 @@ static int mkfilter_passwd_byuid(uid_t u
  {
    if (uidSid != NULL)
    {
@@ -205,12 +206,12 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/passwd.c nss-pam-ldapd-0.9.2-opt/nslcd/passwd
    }
  }
  
-diff -ur nss-pam-ldapd-0.9.2/nslcd/protocol.c nss-pam-ldapd-0.9.2-opt/nslcd/protocol.c
---- nss-pam-ldapd-0.9.2/nslcd/protocol.c	2013-10-30 00:01:54.000000000 +0100
-+++ nss-pam-ldapd-0.9.2-opt/nslcd/protocol.c	2013-12-11 18:49:25.038804255 +0100
-@@ -70,8 +70,8 @@
-   if (myldap_escape(name, safename, sizeof(safename)))
+diff -urNp -x '*.orig' nss-pam-ldapd-0.9.4.org/nslcd/protocol.c nss-pam-ldapd-0.9.4/nslcd/protocol.c
+--- nss-pam-ldapd-0.9.4.org/nslcd/protocol.c	2014-06-06 17:28:40.000000000 +0200
++++ nss-pam-ldapd-0.9.4/nslcd/protocol.c	2025-11-24 19:07:39.201270849 +0100
+@@ -73,8 +73,8 @@ static int mkfilter_protocol_byname(cons
      return -1;
+   }
    /* build filter */
 -  return mysnprintf(buffer, buflen, "(&%s(%s=%s))",
 -                    protocol_filter, attmap_protocol_cn, safename);
@@ -219,7 +220,7 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/protocol.c nss-pam-ldapd-0.9.2-opt/nslcd/prot
  }
  
  /* create a search filter for searching a protocol entry
-@@ -79,8 +79,8 @@
+@@ -82,8 +82,8 @@ static int mkfilter_protocol_byname(cons
  static int mkfilter_protocol_bynumber(int protocol,
                                        char *buffer, size_t buflen)
  {
@@ -230,12 +231,12 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/protocol.c nss-pam-ldapd-0.9.2-opt/nslcd/prot
  }
  
  void protocol_init(void)
-diff -ur nss-pam-ldapd-0.9.2/nslcd/rpc.c nss-pam-ldapd-0.9.2-opt/nslcd/rpc.c
---- nss-pam-ldapd-0.9.2/nslcd/rpc.c	2013-10-29 23:20:01.000000000 +0100
-+++ nss-pam-ldapd-0.9.2-opt/nslcd/rpc.c	2013-12-11 18:49:49.615710527 +0100
-@@ -71,14 +71,14 @@
-   if (myldap_escape(name, safename, sizeof(safename)))
+diff -urNp -x '*.orig' nss-pam-ldapd-0.9.4.org/nslcd/rpc.c nss-pam-ldapd-0.9.4/nslcd/rpc.c
+--- nss-pam-ldapd-0.9.4.org/nslcd/rpc.c	2014-06-06 17:28:40.000000000 +0200
++++ nss-pam-ldapd-0.9.4/nslcd/rpc.c	2025-11-24 19:07:39.201406831 +0100
+@@ -74,14 +74,14 @@ static int mkfilter_rpc_byname(const cha
      return -1;
+   }
    /* build filter */
 -  return mysnprintf(buffer, buflen, "(&%s(%s=%s))",
 -                    rpc_filter, attmap_rpc_cn, safename);
@@ -252,10 +253,10 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/rpc.c nss-pam-ldapd-0.9.2-opt/nslcd/rpc.c
  }
  
  void rpc_init(void)
-diff -ur nss-pam-ldapd-0.9.2/nslcd/service.c nss-pam-ldapd-0.9.2-opt/nslcd/service.c
---- nss-pam-ldapd-0.9.2/nslcd/service.c	2013-10-30 00:01:54.000000000 +0100
-+++ nss-pam-ldapd-0.9.2-opt/nslcd/service.c	2013-12-11 18:50:43.116232199 +0100
-@@ -77,13 +77,14 @@
+diff -urNp -x '*.orig' nss-pam-ldapd-0.9.4.org/nslcd/service.c nss-pam-ldapd-0.9.4/nslcd/service.c
+--- nss-pam-ldapd-0.9.4.org/nslcd/service.c	2014-06-06 17:28:40.000000000 +0200
++++ nss-pam-ldapd-0.9.4/nslcd/service.c	2025-11-24 19:07:39.201561957 +0100
+@@ -83,13 +83,14 @@ static int mkfilter_service_byname(const
        log_log(LOG_ERR, "mkfilter_service_byname(): safeprotocol buffer too small");
        return -1;
      }
@@ -275,7 +276,7 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/service.c nss-pam-ldapd-0.9.2-opt/nslcd/servi
  }
  
  static int mkfilter_service_bynumber(int number, const char *protocol,
-@@ -94,13 +95,14 @@
+@@ -103,13 +104,14 @@ static int mkfilter_service_bynumber(int
        log_log(LOG_ERR, "mkfilter_service_bynumber(): safeprotocol buffer too small");
        return -1;
      }
@@ -295,12 +296,12 @@ diff -ur nss-pam-ldapd-0.9.2/nslcd/service.c nss-pam-ldapd-0.9.2-opt/nslcd/servi
  }
  
  void service_init(void)
-diff -ur nss-pam-ldapd-0.9.2/nslcd/shadow.c nss-pam-ldapd-0.9.2-opt/nslcd/shadow.c
---- nss-pam-ldapd-0.9.2/nslcd/shadow.c	2013-10-06 16:59:04.000000000 +0200
-+++ nss-pam-ldapd-0.9.2-opt/nslcd/shadow.c	2013-12-11 18:51:00.719737206 +0100
-@@ -77,8 +77,8 @@
-   if (myldap_escape(name, safename, sizeof(safename)))
+diff -urNp -x '*.orig' nss-pam-ldapd-0.9.4.org/nslcd/shadow.c nss-pam-ldapd-0.9.4/nslcd/shadow.c
+--- nss-pam-ldapd-0.9.4.org/nslcd/shadow.c	2014-06-06 17:28:40.000000000 +0200
++++ nss-pam-ldapd-0.9.4/nslcd/shadow.c	2025-11-24 19:07:39.201718743 +0100
+@@ -80,8 +80,8 @@ static int mkfilter_shadow_byname(const
      return -1;
+   }
    /* build filter */
 -  return mysnprintf(buffer, buflen, "(&%s(%s=%s))",
 -                    shadow_filter, attmap_shadow_uid, safename);
